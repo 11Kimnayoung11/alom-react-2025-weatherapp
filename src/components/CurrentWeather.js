@@ -4,14 +4,22 @@ import {
   Temperature,
   WeatherCode,
 } from "./styles/StyledComponents";
-import { getWeatherDescription } from "../utils/weather";
+import { getWeatherDescription, formatHourlyData } from "../utils/weather";
 
 const CurrentWeather = ({ weatherData, isLoading }) => {
   if (isLoading) {
-    return <div>채워주세요</div>;
+    return <div>로딩 중...</div>;
   }
+  
+  const hourlyData = formatHourlyData(weatherData);
+  const current = hourlyData[0] || {};
 
-  return <div>채워주세요</div>;
+  return (
+    <CurrentWeatherWrapper>
+      <Temperature>{current.temperature ? `${Math.round(current.temperature)}°C` : "N/A"}</Temperature>
+      <WeatherCode>{current.weather}</WeatherCode>
+    </CurrentWeatherWrapper>
+  );
 };
 
 export default CurrentWeather;

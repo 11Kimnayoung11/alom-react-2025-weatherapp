@@ -22,40 +22,41 @@ export const getWeatherDescription = (code) => {
 export const formatHourlyData = (weatherData) => {
   if (!weatherData) return [];
   // 밑에 코드 채워주세요
-  const { time, temperature_2m, weather_code } = weatherData.hourly || {};
-  if (!time || !temperature_2m || !weather_code) return [];
+  const { time, temperature_2m, weather_code } = weatherData.hourly;
 
-  const currentHour = new Date().getHours();
-  const hourlyForecast = [];
+  /*
+  - `latitude`, `longitude`: 서울 좌표 (37.566°N, 126.9784°E)
+- `hourly`: 시간별 날씨 데이터 포함:
+  - `temperature_2m`: 섭씨 온도
+  - `weather_code`: 날씨 상태 코드
+- `daily`: 일별 날씨 데이터 포함:
+  - `weather_code`: 일별 날씨 상태 코드
+  - `temperature_2m_max`: 일 최고 기온
+- `timezone`: Asia/Tokyo
+- `forecast_days`: 7일 예보
+*/
 
-  for (let i = currentHour; i < currentHour + 12 && i < time.length; i++) {
-    const date = new Date(time[i]);
-    hourlyForecast.push({
-      time: date.toLocaleTimeString('ko-KR', { 
-        hour: 'numeric', 
-        hour12: true 
-      }),
-      temperature: temperature_2m[i],
-      weatherCode: weather_code[i]
-    });
-  }
-  return hourlyForecast;
+ return time.map((t, i) => ({
+    time: new Date(t).toLocaleTimeString("ko-KR", { hour: "2-digit" }), 
+    temperature: temperature_2m[i], // 온도
+    weather: getWeatherDescription(weather_code[i]), // 날씨 설명
+  }));
+  
 };
 
 export const formatDailyData = (weatherData) => {
   if (!weatherData) return [];
   // 밑에 코드 채워주세요
-  const { time, weather_code, temperature_2m_max } = weatherData.daily || {};
-  if (!time || !weather_code || !temperature_2m_max) return [];
+  
+  const { time, temperature_2m_max, weather_code } = weatherData.daily;
 
-  return time.map((date, index) => ({
-    date: new Date(date).toLocaleDateString('ko-KR', {
-      weekday: 'long',
-      month: 'numeric',
-      day: 'numeric'
+  return time.slice(0, 7).map((t, i) => ({
+    date: new Date(t).toLocaleDateString("ko-KR", {
+      month: "long",
+      day: "numeric",
+      weekday: "short",
     }),
-    weatherCode: weather_code[index],
-    temperature: temperature_2m_max[index]
+    weather: getWeatherDescription(weather_code[i]), // 한글 날씨 설명
+    temperature: temperature_2m_max[i], // 최고 기온
   }));
-
 };

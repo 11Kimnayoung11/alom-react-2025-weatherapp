@@ -5,7 +5,18 @@ import { getWeatherDescription, formatDailyData } from "../utils/weather";
 const DailyForecast = ({ weatherData }) => {
   const dailyData = formatDailyData(weatherData);
 
-  return <div>채워주세요</div>;
+  return(
+    <DailyForecastWrapper>
+      {dailyData.map((day, index) => (
+        <DailyItem key={index}>
+          <span>{day.date}</span>
+          <span>{day.weather}</span>
+          <span>{Math.round(day.temperature)}°C</span>
+        </DailyItem>
+      ))}
+    </DailyForecastWrapper>
+  );
+
 };
 
 export default DailyForecast;
