@@ -36,8 +36,8 @@ export const formatHourlyData = (weatherData) => {
 - `forecast_days`: 7일 예보
 */
 
- return time.map((t, i) => ({
-    time: new Date(t).toLocaleTimeString("ko-KR", { hour: "2-digit" }), 
+ return time.slice(0, 12).map((t, i) => ({
+    time: new Date(t).toLocaleTimeString("ko-KR", { hour: "2-digit" , hour12: true }), 
     temperature: temperature_2m[i], // 온도
     weather: getWeatherDescription(weather_code[i]), // 날씨 설명
   }));

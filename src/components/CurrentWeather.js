@@ -8,11 +8,11 @@ import { getWeatherDescription, formatHourlyData } from "../utils/weather";
 
 const CurrentWeather = ({ weatherData, isLoading }) => {
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <div>Loading...</div>;
   }
-  
+
   const hourlyData = formatHourlyData(weatherData);
-  const current = hourlyData[0] || {};
+  const current = hourlyData[0];
 
   return (
     <CurrentWeatherWrapper>
