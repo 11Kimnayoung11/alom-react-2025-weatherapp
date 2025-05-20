@@ -56,7 +56,7 @@ export const formatDailyData = (weatherData) => {
       day: "numeric",
       weekday: "short",
     }),
-    weather: getWeatherDescription(weather_code[i]), // 한글 날씨 설명
-    temperature: temperature_2m_max[i], // 최고 기온
+    weather: getWeatherDescription(weather_code[i]), 
+    temperature: temperature_2m_max[i],
   }));
 };
